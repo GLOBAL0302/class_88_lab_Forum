@@ -9,6 +9,11 @@ const PostSchema = new Schema({
   description: {
     type: String,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   image: String,
   create_at: {
     type: String,
