@@ -16,7 +16,7 @@ const SALT_WORK_FACTORY = 10;
 const UserSchema = new Schema<HydratedDocument<IUserField>, IUserModel, IUserMethods>({
   username: {
     type: String,
-    required: [true, 'username is required'],
+    required: [true, 'Username is required'],
     unique: true,
     validate: {
       validator: async function (this: HydratedDocument<IUserField>, value: string): Promise<boolean> {
@@ -24,7 +24,7 @@ const UserSchema = new Schema<HydratedDocument<IUserField>, IUserModel, IUserMet
         const user: IUserField | null = await User.findOne({ username: value });
         return !user;
       },
-      message: 'This username is required',
+      message: 'This username is taken',
     },
   },
   password: {
@@ -37,7 +37,23 @@ const UserSchema = new Schema<HydratedDocument<IUserField>, IUserModel, IUserMet
   },
 });
 
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
 UserSchema.methods.checkPassword = async function (password: string) {
+  console.log(password, this.password);
   return bcrypt.compare(password, this.password);
 };
 

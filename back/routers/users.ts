@@ -20,22 +20,21 @@ usersRouter.post('/register', async (req, res, next) => {
     if (error instanceof Error.ValidationError) {
       res.status(400).send(error);
     }
-
     next(error);
   }
 });
 
-usersRouter.post('/session', async (req, res, next) => {
+usersRouter.post('/sessions', async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
       res.status(401).send('User not found');
       return;
     }
-
     const isMatch = await user.checkPassword(req.body.password);
+
     if (!isMatch) {
-      res.status(401).send('password is incorrect');
+      res.status(400).send('password is incorrect');
       return;
     }
 

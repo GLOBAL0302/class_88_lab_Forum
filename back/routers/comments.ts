@@ -19,7 +19,7 @@ commentsRouter.get('/:postId', auth, async (req, res, next) => {
   }
 });
 
-commentsRouter.post('/postId', auth, async (req, res, next) => {
+commentsRouter.post('/:postId', auth, async (req, res, next) => {
   try {
     const postId = req.params.postId;
     const expressReq = req as RequestWithUser;
@@ -39,3 +39,5 @@ commentsRouter.post('/postId', auth, async (req, res, next) => {
     next(error);
   }
 });
+
+export default commentsRouter;
