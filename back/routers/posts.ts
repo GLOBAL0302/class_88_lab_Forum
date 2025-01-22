@@ -8,10 +8,9 @@ const postsRouter = express.Router();
 
 postsRouter.get('/', async (req, res, next) => {
   try {
-    console.log('sd');
     const id = req.query.postId;
     let filter = id ? { _id: id } : {};
-    const posts = await Post.find(filter);
+    const posts = await Post.find(filter).populate('user');
     res.status(200).send(posts);
   } catch (error) {
     if (error instanceof Error.ValidationError) {

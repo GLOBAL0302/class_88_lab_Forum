@@ -28,13 +28,13 @@ usersRouter.post('/sessions', async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
-      res.status(401).send('User not found');
+      res.status(400).send({ error: 'User not found' });
       return;
     }
     const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
-      res.status(400).send('password is incorrect');
+      res.status(400).send({ error: 'password is incorrect' });
       return;
     }
 
@@ -43,7 +43,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
     res.status(200).send({ message: 'User registered successfully', user });
   } catch (error) {
     if (error instanceof Error.ValidationError) {
-      res.status(400).send(error);
+      res.status(400).send({ error: error.message });
     }
     next(error);
   }
