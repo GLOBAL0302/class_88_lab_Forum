@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { IPostMutation } from '../../types';
 import { addPostThunk, fetchPostsThunk } from '../Posts/PostsThunk.ts';
 import { selectAddingPost } from '../Posts/postsSlice.ts';
+import { useNavigate } from 'react-router-dom';
 
 const initialState: IPostMutation = {
   title: '',
@@ -15,6 +16,7 @@ const initialState: IPostMutation = {
 
 const AddPost = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const addingPost = useAppSelector(selectAddingPost);
   const [postForm, setPostForm] = useState(initialState);
 
@@ -40,6 +42,7 @@ const AddPost = () => {
     e.preventDefault();
     await dispatch(addPostThunk(postForm));
     await dispatch(fetchPostsThunk());
+    navigate('/');
   };
 
   return (

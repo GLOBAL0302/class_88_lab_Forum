@@ -2,7 +2,6 @@ import express from 'express';
 import { Error } from 'mongoose';
 import auth, { RequestWithUser } from '../middleware/auth';
 import Comment from '../models/Comment';
-import post from '../models/Post';
 
 const commentsRouter = express.Router();
 
@@ -10,8 +9,9 @@ commentsRouter.get('/:postId', auth, async (req, res, next) => {
   try {
     const postId = req.params.postId;
     const comments = await Comment.find({ post: postId }).populate({
+      path: 'user',
+    }).populate({
       path: 'post',
-      populate: 'user',
     });
     res.status(200).send(comments);
   } catch (error) {
@@ -24,7 +24,6 @@ commentsRouter.get('/:postId', auth, async (req, res, next) => {
 
 commentsRouter.post('/:postId', auth, async (req, res, next) => {
   try {
-    console.log(req.body.description);
     const postId = req.params.postId;
     const expressReq = req as RequestWithUser;
     const user = expressReq.user;
