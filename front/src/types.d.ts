@@ -40,7 +40,7 @@ export interface IGlobalError {
   error: string;
 }
 
-export interface IPostMutation{
+export interface IPostMutation {
   title: string;
   description: string;
   image: File | null;

@@ -31,6 +31,7 @@ postsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next)
       image: req.file ? 'images' + req.file.filename : null,
       created_at: new Date().toISOString(),
     });
+
     await post.save();
     res.status(200).send({ post });
   } catch (error) {

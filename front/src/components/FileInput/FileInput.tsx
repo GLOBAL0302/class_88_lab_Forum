@@ -1,7 +1,6 @@
-import {Grid2, TextField} from '@mui/material';
+import { Grid2, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
-import {useRef, useState} from 'react';
-
+import { useRef, useState } from 'react';
 
 interface Props {
   name: string;
@@ -9,8 +8,7 @@ interface Props {
   onGetFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FileInput:React.FC<Props> = ({name,label,onGetFile}) => {
-
+const FileInput: React.FC<Props> = ({ name, label, onGetFile }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>('');
 
@@ -29,7 +27,6 @@ const FileInput:React.FC<Props> = ({name,label,onGetFile}) => {
 
     onGetFile(e);
   };
-
 
   return (
     <>

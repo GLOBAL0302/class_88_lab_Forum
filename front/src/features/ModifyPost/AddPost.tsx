@@ -1,11 +1,13 @@
-import {useAppDispatch} from '../../app/hooks.ts';
-import {useState} from 'react';
-import {Grid2, TextField} from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
+import { useState } from 'react';
+import { Grid2, TextField } from '@mui/material';
 import FileInput from '../../components/FileInput/FileInput.tsx';
 import Button from '@mui/material/Button';
-import {IPostMutation} from '../../types';
+import { IPostMutation } from '../../types';
+import { addPostThunk, fetchPostsThunk } from '../Posts/PostsThunk.ts';
+import { selectAddingPost } from '../Posts/postsSlice.ts';
 
-const initialState:IPostMutation = {
+const initialState: IPostMutation = {
   title: '',
   description: '',
   image: null,
@@ -13,6 +15,7 @@ const initialState:IPostMutation = {
 
 const AddPost = () => {
   const dispatch = useAppDispatch();
+  const addingPost = useAppSelector(selectAddingPost);
   const [postForm, setPostForm] = useState(initialState);
 
   const onChangeNewsForm = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,10 +38,9 @@ const AddPost = () => {
 
   const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-
+    await dispatch(addPostThunk(postForm));
+    await dispatch(fetchPostsThunk());
   };
-
 
   return (
     <>
@@ -64,7 +66,7 @@ const AddPost = () => {
           fullWidth
         />
         <FileInput name="image" label="image" onGetFile={onChangeFile} />
-        <Button type="submit" variant="contained" color="primary">
+        <Button disabled={addingPost} type="submit" variant="contained" color="primary">
           Add News
         </Button>
       </Grid2>

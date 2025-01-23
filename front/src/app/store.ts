@@ -1,10 +1,8 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { postsReducer } from '../features/Posts/postsSlice.ts';
 import { usersReducer } from '../features/Users/usersSlice.ts';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistStore, persistReducer } from 'redux-persist';
-
-
 
 const userPersistConfig = {
   key: 'store:users',
