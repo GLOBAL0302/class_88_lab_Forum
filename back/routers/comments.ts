@@ -9,7 +9,10 @@ const commentsRouter = express.Router();
 commentsRouter.get('/:postId', auth, async (req, res, next) => {
   try {
     const postId = req.params.postId;
-    const comments = await Comment.find({ post: postId });
+    const comments = await Comment.find({ post: postId }).populate({
+      path: 'post',
+      populate: 'user',
+    });
     res.status(200).send(comments);
   } catch (error) {
     if (error instanceof Error.ValidationError) {
@@ -21,6 +24,7 @@ commentsRouter.get('/:postId', auth, async (req, res, next) => {
 
 commentsRouter.post('/:postId', auth, async (req, res, next) => {
   try {
+    console.log(req.body.description);
     const postId = req.params.postId;
     const expressReq = req as RequestWithUser;
     const user = expressReq.user;
@@ -29,6 +33,8 @@ commentsRouter.post('/:postId', auth, async (req, res, next) => {
       post: postId,
       description: req.body.description,
     });
+
+    console.log(comment);
 
     await comment.save();
     res.status(200).send({ comment });

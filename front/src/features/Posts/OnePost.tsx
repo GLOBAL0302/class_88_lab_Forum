@@ -4,17 +4,25 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import noPic from '../../assets/chat.png';
 import { apiUrl } from '../../GlobalConstant.ts';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   post: IPost;
 }
 
 const OnePost: React.FC<Props> = ({ post }) => {
+  const navigate = useNavigate();
+
   let artistsPic = noPic;
 
   if (post.image) {
     artistsPic = apiUrl + '/' + post.image;
   }
+
+  const goToOnePost = () => {
+    navigate(`/postPage/${post._id}`);
+  };
 
   return (
     <Grid2
@@ -32,7 +40,9 @@ const OnePost: React.FC<Props> = ({ post }) => {
         <Typography variant="body2" component="p">
           {dayjs(post.create_at).format('DD/MM/YYYY HH:mm:ss')} by {post.user.username}
         </Typography>
-        <Typography>{post.title}</Typography>
+        <Button onClick={goToOnePost} variant="contained" color="primary">
+          {post.title}
+        </Button>
       </Grid2>
     </Grid2>
   );

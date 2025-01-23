@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Menu, MenuItem } from '@mui/material';
 import { IUser } from '../../types';
+import { unsetUser } from '../../features/Users/usersSlice.ts';
 
 interface Props {
   user: IUser;
@@ -23,7 +24,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     setAnchorEl(null);
   };
 
-  const handleLogOut = () => {};
+  const handleLogOut = () => {
+    dispatch(unsetUser());
+  };
 
   return (
     <>
@@ -34,7 +37,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       </Button>
       <Menu anchorEl={anchorEl} onClose={handleClose} keepMounted={true} open={Boolean(anchorEl)}>
         <MenuItem onClick={() => navigate('/addPost')}>Add New Post</MenuItem>
-        <MenuItem>LogOut</MenuItem>
+        <MenuItem onClick={handleLogOut}>LogOut</MenuItem>
       </Menu>
     </>
   );

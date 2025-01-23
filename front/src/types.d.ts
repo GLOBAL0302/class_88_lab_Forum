@@ -45,3 +45,14 @@ export interface IPostMutation {
   description: string;
   image: File | null;
 }
+
+export interface IComments {
+  _id: string;
+  user: IUser;
+  post: IPost;
+  description: string;
+}
+export interface ICommentMutation {
+  description: string;
+  post: string;
+}
