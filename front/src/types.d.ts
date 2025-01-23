@@ -39,3 +39,9 @@ export interface IValidationError {
 export interface IGlobalError {
   error: string;
 }
+
+export interface IPostMutation{
+  title: string;
+  description: string;
+  image: File | null;
+}
