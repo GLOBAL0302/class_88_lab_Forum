@@ -59,6 +59,7 @@ const AddPost = () => {
           fullWidth
         />
         <TextField
+          disabled={postForm.image !== null}
           value={postForm.description}
           label="Description"
           onChange={onChangeNewsForm}
@@ -68,7 +69,7 @@ const AddPost = () => {
           color="primary"
           fullWidth
         />
-        <FileInput name="image" label="image" onGetFile={onChangeFile} />
+        <FileInput description={postForm.description} name="image" label="image" onGetFile={onChangeFile} />
         <Button disabled={addingPost} type="submit" variant="contained" color="primary">
           Add News
         </Button>

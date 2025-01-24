@@ -1,19 +1,14 @@
 import { IComments } from '../../types';
-import {CardMedia, Grid2} from '@mui/material';
+import { Grid2 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import noPic from "../../assets/chat.png"
-import {apiUrl} from '../../GlobalConstant.ts';
 
 interface Props {
   comment: IComments;
 }
 
 const Comment: React.FC<Props> = ({ comment }) => {
-
-
   return (
     <Grid2>
-
       <Grid2
         alignItems="center"
         sx={{

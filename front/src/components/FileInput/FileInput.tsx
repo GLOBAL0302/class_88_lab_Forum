@@ -6,9 +6,10 @@ interface Props {
   name: string;
   label: string;
   onGetFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  description: string;
 }
 
-const FileInput: React.FC<Props> = ({ name, label, onGetFile }) => {
+const FileInput: React.FC<Props> = ({ name, label, onGetFile, description }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>('');
 
@@ -30,7 +31,14 @@ const FileInput: React.FC<Props> = ({ name, label, onGetFile }) => {
 
   return (
     <>
-      <input name={name} type="file" ref={inputRef} onChange={onFileChange} style={{ display: 'none' }} />
+      <input
+        disabled={description !== ''}
+        name={name}
+        type="file"
+        ref={inputRef}
+        onChange={onFileChange}
+        style={{ display: 'none' }}
+      />
       <Grid2 container alignItems="center" gap={2}>
         <Grid2>
           <TextField disabled label={label} value={fileName} onChange={activateInput} />

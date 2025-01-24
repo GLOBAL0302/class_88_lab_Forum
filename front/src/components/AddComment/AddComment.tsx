@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Grid2, TextField } from '@mui/material';
+import { CircularProgress, Grid2, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useAppDispatch } from '../../app/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { addCommentsThunk, fetchComments } from '../../features/Comments/commentsThunk.ts';
+import { selectPostingComments } from '../../features/Comments/commentsSlice.ts';
 
 interface Props {
   postId: string;
@@ -10,6 +11,8 @@ interface Props {
 
 const AddComment: React.FC<Props> = ({ postId }) => {
   const dispatch = useAppDispatch();
+  const postingComment = useAppSelector(selectPostingComments);
+
   const [commentForm, setCommentForm] = useState({
     postId: postId,
     description: '',
@@ -24,10 +27,10 @@ const AddComment: React.FC<Props> = ({ postId }) => {
     }));
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addCommentsThunk(commentForm));
-    dispatch(fetchComments(postId));
+    await dispatch(addCommentsThunk(commentForm));
+    await dispatch(fetchComments(postId));
     console.log(commentForm);
   };
 
@@ -45,8 +48,8 @@ const AddComment: React.FC<Props> = ({ postId }) => {
         />
       </Grid2>
       <Grid2>
-        <Button variant="contained" color="primary" type="submit">
-          Add Comment
+        <Button disabled={postingComment} variant="contained" color="primary" type="submit">
+          Add Comment {postingComment && <CircularProgress />}
         </Button>
       </Grid2>
     </Grid2>

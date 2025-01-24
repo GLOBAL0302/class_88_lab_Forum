@@ -1,6 +1,6 @@
 import { IComments } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchComments } from './commentsThunk.ts';
+import { addCommentsThunk, fetchComments } from './commentsThunk.ts';
 
 interface commentsState {
   comments: IComments[] | null;
@@ -29,6 +29,17 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchComments.rejected, (state) => {
         state.fetchingComments = false;
+      });
+
+    builder
+      .addCase(addCommentsThunk.pending, (state) => {
+        state.postingComment = true;
+      })
+      .addCase(addCommentsThunk.fulfilled, (state) => {
+        state.postingComment = false;
+      })
+      .addCase(addCommentsThunk.rejected, (state) => {
+        state.postingComment = false;
       });
   },
   selectors: {
